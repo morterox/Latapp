@@ -1,11 +1,12 @@
 package com.example.latapp;
 
-import android.content.Intent;
-import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.api.client.http.FileContent;
+import com.google.api.services.drive.model.File;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,10 +29,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
 
+
+                File fileMetadata = new File();
+                fileMetadata.setName("photo.jpg");
+                java.io.File filePath = new java.io.File("files/photo.jpg");
+                FileContent mediaContent = new FileContent("image/jpeg", filePath);
+                File file = driveService.files().create(fileMetadata, mediaContent)
+                        .setFields("id")
+                        .execute();
+
+                /*
                 Intent browserIntent =
                         new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.mkyong.com"));
                 startActivity(browserIntent);
-
+                */
             }
 
         });
